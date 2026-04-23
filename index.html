@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>月次清算チェックリスト</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f8fafc; }
+    select, input, button { outline: none; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateX(-50%) translateY(8px); }
+      to   { opacity:1; transform:translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const INITIAL_PROJECTS = [
+      { id:"adam",      category:"売上処理", name:"アダム",               fullName:"GMOアダム（株）",              steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研-adam-請求関連-g研-始230313" },
+      { id:"tech",      category:"売上処理", name:"TECH",                fullName:"GMOTECH（株）",                steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研tech-請求関連-g研-始240205" },
+      { id:"oshiete",   category:"売上処理", name:"天秤AI",               fullName:"GMO天秤AI（株）",              steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
+      { id:"townwifi",  category:"売上処理", name:"タウンWifi",            fullName:"GMOタウンWifi（株）",          steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-townwifi-invoice" },
+      { id:"mak",       category:"売上処理", name:"MAKESHOP",            fullName:"GMOメイクショップ(株)",         steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"落合さんとのDM" },
+      { id:"air",       category:"売上処理", name:"GMO AIR",             fullName:"GMO AI&ロボティクス商事(株)",   steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研air-請求関連-始241118" },
+      { id:"sip3",      category:"売上処理", name:"SIP3クレカ不正",        fullName:"GMOコネクト（株）",            steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"コネ_コネクト請求関連_外_g研_250209" },
+      { id:"ganb",      category:"売上処理", name:"ローン審査",            fullName:"GMOあおぞらネット銀行（株）",  steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
+      { id:"gyen",      category:"売上処理", name:"GYEN",                fullName:"GMO-Z.com Trust Company",     steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-zcomtrust_invoice" },
+      { id:"brsana",    category:"売上処理", name:"経営データAI",          fullName:"GMOブランドセキュリティ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"kobayashi/GMO-BRS、org-g研brs-請求関連-始250107" },
+      { id:"cal",       category:"売上処理", name:"CALLDB",              fullName:"GMOインターネット（株）",       steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"鐵本さんとのDM" },
+      { id:"kaden",     category:"売上処理", name:"架電チェッカー",         fullName:"GMOTECH（株）",               steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"荒川さんとのDM" },
+      { id:"markcon",   category:"売上処理", name:"マーケティングコネクトAI",fullName:"GMOコマース（株）",           steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"control_team@gmo-c.jp CC:村西さん" },
+      { id:"wine",      category:"売上処理", name:"北青山システム支援",      fullName:"OMAKASE青山ガーデンbyGMO",   steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"jkinvest",  category:"振替処理", name:"AI金融投資",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"netsec",    category:"振替処理", name:"ネットセキュリティもGMO", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"pdf2html",  category:"振替処理", name:"スライド2Web byGMO",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"gbnp",      category:"振替処理", name:"グループブランド日報",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"nakamai",   category:"振替処理", name:"仲間創りAI",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"gplat",     category:"振替処理", name:"GMOプラットフォーム開発", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"kigyomado", category:"振替処理", name:"起業の窓口 byGMO",      fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"tikk",      category:"振替処理", name:"東大医科研",             fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+    ];
+
+    const THEME = {
+      "売上処理": { accent:"#2563eb", light:"#eff6ff", pill:"#dbeafe", pillText:"#1d4ed8", bar:"#2563eb", strip:"#bfdbfe" },
+      "振替処理": { accent:"#ea580c", light:"#fff7ed", pill:"#ffedd5", pillText:"#c2410c", bar:"#ea580c", strip:"#fed7aa" },
+    };
+    const DEFAULT_THEME = THEME["売上処理"];
+
+    const STEPS = [
+      { label:"工数表出力", icon:"📊", done:{ text:"#059669", bg:"#ecfdf5", border:"#6ee7b7" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      { label:"請求書作成", icon:"📄", done:{ text:"#2563eb", bg:"#eff6ff", border:"#93c5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      { label:"FLOW起票",  icon:"🔖", done:{ text:"#7c3aed", bg:"#f5f3ff", border:"#c4b5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      { label:"先方に送付", icon:"✉️", done:{ text:"#b45309", bg:"#fffbeb", border:"#fcd34d" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+    ];
+
+    const STORAGE_KEY  = "monthly_cl_v2";
+    const PROJECTS_KEY = "monthly_cl_projects_v2";
+
+    function getMonthKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+    }
+    function monthLabel(mk) { const [y,m]=mk.split("-"); return `${y}年${parseInt(m)}月`; }
+    function loadChecks(mk)  { try { return JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${mk}`))||{}; } catch { return {}; } }
+    function saveChecks(mk,c){ localStorage.setItem(`${STORAGE_KEY}_${mk}`,JSON.stringify(c)); }
+    function loadProjects()  { try { return JSON.parse(localStorage.getItem(PROJECTS_KEY))||INITIAL_PROJECTS; } catch { return INITIAL_PROJECTS; } }
+    function saveProjects(p) { localStorage.setItem(PROJECTS_KEY,JSON.stringify(p)); }
+
+    function App() {
+      const [monthKey,    setMonthKey]    = useState(getMonthKey);
+      const [checks,      setChecks]      = useState(()=>loadChecks(getMonthKey()));
+      const [projects,    setProjects]    = useState(loadProjects);
+      const [tab,         setTab]         = useState("checklist");
+      const [editProj,    setEditProj]    = useState(null);
+      const [newProj,     setNewProj]     = useState(null);
+      const [expandNote,  setExpandNote]  = useState(null);
+      const [toast,       setToast]       = useState(null);
+
+      useEffect(()=>{ setChecks(loadChecks(monthKey)); },[monthKey]);
+
+      const months = Array.from({length:6},(_,i)=>{
+        const d = new Date(new Date().getFullYear(), new Date().getMonth()-i, 1);
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+      });
+
+      function toggle(pid,si) {
+        const k=`${pid}_${si}`, next={...checks,[k]:!checks[k]};
+        setChecks(next); saveChecks(monthKey,next);
+        if(!checks[k]) showToast("✓ 完了");
+      }
+      function isChecked(pid,si) { return !!checks[`${pid}_${si}`]; }
+      function progress(p) {
+        const done=p.steps.filter((_,i)=>isChecked(p.id,i)).length;
+        return { done, total:p.steps.length, pct:Math.round(done/p.steps.length*100) };
+      }
+      function catProgress(cat) {
+        let done=0,total=0;
+        projects.filter(p=>p.category===cat).forEach(p=>{ const pr=progress(p); done+=pr.done; total+=pr.total; });
+        return { done, total, pct:total?Math.round(done/total*100):0 };
+      }
+      function totalProgress() {
+        let done=0,total=0;
+        projects.forEach(p=>{ const pr=progress(p); done+=pr.done; total+=pr.total; });
+        return { done, total, pct:total?Math.round(done/total*100):0 };
+      }
+      function showToast(msg) { setToast(msg); setTimeout(()=>setToast(null),1600); }
+
+      const categories  = [...new Set(projects.map(p=>p.category))];
+      const tp          = totalProgress();
+      const incomplete  = projects.filter(p=>progress(p).done<progress(p).total);
+      const allComplete = incomplete.length===0;
+
+      function saveEdit(proj) {
+        const next=projects.map(p=>p.id===proj.id?proj:p);
+        setProjects(next); saveProjects(next); setEditProj(null);
+      }
+      function addProject(proj) {
+        const next=[...projects,{...proj,id:Date.now().toString()}];
+        setProjects(next); saveProjects(next); setNewProj(null);
+        showToast("追加しました");
+      }
+      function deleteProject(id) {
+        if(!confirm("削除しますか？")) return;
+        const next=projects.filter(p=>p.id!==id);
+        setProjects(next); saveProjects(next);
+      }
+
+      return (
+        <div style={{ minHeight:"100vh", background:"#f8fafc", color:"#1e293b",
+          fontFamily:"'Noto Sans JP','Hiragino Kaku Gothic Pro',sans-serif", paddingBottom:60 }}>
+
+          {/* HEADER */}
+          <div style={{ background:"#fff", borderBottom:"1px solid #e2e8f0",
+            position:"sticky", top:0, zIndex:20, padding:"0 24px" }}>
+            <div style={{ maxWidth:900, margin:"0 auto" }}>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 0 0" }}>
+                <div>
+                  <div style={{ fontSize:10, letterSpacing:3, color:"#94a3b8", fontWeight:700, textTransform:"uppercase" }}>Monthly Settlement</div>
+                  <h1 style={{ margin:0, fontSize:18, fontWeight:800, color:"#0f172a", letterSpacing:-0.5 }}>月次清算チェックリスト</h1>
+                </div>
+                <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+                  <select value={monthKey} onChange={e=>setMonthKey(e.target.value)} style={{
+                    background:"#f8fafc", border:"1px solid #e2e8f0", color:"#475569",
+                    borderRadius:8, padding:"6px 12px", fontSize:12, fontWeight:600, fontFamily:"inherit", cursor:"pointer"
+                  }}>
+                    {months.map(m=><option key={m} value={m}>{monthLabel(m)}</option>)}
+                  </select>
+                  <button onClick={()=>setTab(tab==="edit"?"checklist":"edit")} style={{
+                    background:tab==="edit"?"#0f172a":"#f8fafc",
+                    border:"1px solid "+(tab==="edit"?"#0f172a":"#e2e8f0"),
+                    color:tab==="edit"?"#fff":"#475569",
+                    borderRadius:8, padding:"6px 14px", fontSize:12, fontWeight:600,
+                    cursor:"pointer", fontFamily:"inherit"
+                  }}>
+                    {tab==="edit"?"← 戻る":"✎ 編集"}
+                  </button>
+                </div>
+              </div>
+              <div style={{ display:"flex", gap:0, marginTop:4 }}>
+                {["checklist","summary"].map(t=>(
+                  <button key={t} onClick={()=>setTab(t)} style={{
+                    background:"none", border:"none",
+                    color:tab===t?"#0f172a":"#94a3b8",
+                    borderBottom:tab===t?"2px solid #0f172a":"2px solid transparent",
+                    padding:"8px 16px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit"
+                  }}>
+                    {t==="checklist"?"チェックリスト":"サマリー"}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={{ maxWidth:900, margin:"0 auto", padding:"20px 24px 0" }}>
+
+            {/* SUMMARY */}
+            {tab==="summary" && (
+              <div>
+                <div style={{ background:"#0f172a", borderRadius:16, padding:"24px 28px", marginBottom:16, color:"#fff" }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:12 }}>
+                    <div>
+                      <div style={{ fontSize:10, color:"#64748b", letterSpacing:3, fontWeight:700, textTransform:"uppercase", marginBottom:4 }}>Overall</div>
+                      <div style={{ fontSize:42, fontWeight:900, lineHeight:1 }}>{tp.pct}<span style={{ fontSize:18, fontWeight:400, color:"#64748b" }}>%</span></div>
+                    </div>
+                    <div style={{ textAlign:"right", color:"#94a3b8", fontSize:13 }}>{tp.done} / {tp.total} 完了</div>
+                  </div>
+                  <div style={{ background:"#1e293b", borderRadius:8, height:8 }}>
+                    <div style={{ width:`${tp.pct}%`, height:"100%", background:allComplete?"#22c55e":"#3b82f6", borderRadius:8, transition:"width .4s" }} />
+                  </div>
+                </div>
+                {categories.map(cat=>{
+                  const cp=catProgress(cat); const th=THEME[cat]||DEFAULT_THEME;
+                  return (
+                    <div key={cat} style={{ background:"#fff", borderRadius:12, padding:"16px 20px", marginBottom:10,
+                      border:`1px solid ${th.strip}`, borderLeft:`4px solid ${th.accent}` }}>
+                      <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
+                        <span style={{ fontWeight:700, fontSize:13, color:th.accent }}>{cat}</span>
+                        <span style={{ fontSize:12, color:"#64748b" }}>{cp.done}/{cp.total}</span>
+                      </div>
+                      <div style={{ background:"#f1f5f9", borderRadius:6, height:6 }}>
+                        <div style={{ width:`${cp.pct}%`, height:"100%", background:cp.pct===100?"#22c55e":th.bar, borderRadius:6, transition:"width .4s" }} />
+                      </div>
+                    </div>
+                  );
+                })}
+                {incomplete.length>0 && (
+                  <div style={{ background:"#fff", borderRadius:12, border:"1px solid #fecaca",
+                    borderLeft:"4px solid #ef4444", padding:"16px 20px", marginTop:16 }}>
+                    <div style={{ fontSize:11, color:"#ef4444", fontWeight:800, letterSpacing:1, marginBottom:12 }}>⚠ 未完了 {incomplete.length}件</div>
+                    {incomplete.map(p=>{
+                      const remaining=p.steps.filter((_,i)=>!isChecked(p.id,i));
+                      return (
+                        <div key={p.id} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
+                          padding:"8px 0", borderBottom:"1px solid #fef2f2" }}>
+                          <div>
+                            <span style={{ fontWeight:700, fontSize:13 }}>{p.name}</span>
+                            <span style={{ fontSize:10, color:"#94a3b8", marginLeft:8 }}>{p.category}</span>
+                          </div>
+                          <div style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
+                            {remaining.map(s=>(
+                              <span key={s} style={{ fontSize:10, background:"#fef2f2", color:"#ef4444",
+                                border:"1px solid #fecaca", borderRadius:4, padding:"2px 7px" }}>{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {allComplete && (
+                  <div style={{ textAlign:"center", padding:"32px", color:"#15803d", fontWeight:800, fontSize:16 }}>
+                    🎉 今月の処理はすべて完了しています！
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* EDIT */}
+            {tab==="edit" && (
+              <div>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
+                  <span style={{ fontSize:13, fontWeight:700, color:"#475569" }}>プロジェクト管理</span>
+                  <button onClick={()=>setNewProj({category:"売上処理",name:"",fullName:"",code:"",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"],note:""})}
+                    style={{ background:"#0f172a", border:"none", color:"#fff", borderRadius:8,
+                      padding:"7px 16px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+                    ＋ 追加
+                  </button>
+                </div>
+                {newProj && <ProjectForm proj={newProj} onChange={setNewProj} onSave={()=>addProject(newProj)} onCancel={()=>setNewProj(null)} categories={categories} isNew={true} />}
+                {categories.map(cat=>{
+                  const th=THEME[cat]||DEFAULT_THEME;
+                  return (
+                    <div key={cat} style={{ marginBottom:20 }}>
+                      <div style={{ fontSize:10, color:th.accent, fontWeight:800, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>{cat}</div>
+                      {projects.filter(p=>p.category===cat).map(p=>
+                        editProj&&editProj.id===p.id ? (
+                          <ProjectForm key={p.id} proj={editProj} onChange={setEditProj}
+                            onSave={()=>saveEdit(editProj)} onCancel={()=>setEditProj(null)} categories={categories} isNew={false} />
+                        ) : (
+                          <div key={p.id} style={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:10,
+                            padding:"10px 16px", marginBottom:6, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                            <div>
+                              <span style={{ fontWeight:700, fontSize:13 }}>{p.name}</span>
+                              <span style={{ fontSize:11, color:"#94a3b8", marginLeft:8 }}>{p.fullName}</span>
+                            </div>
+                            <div style={{ display:"flex", gap:6 }}>
+                              <button onClick={()=>setEditProj({...p})} style={{ background:"#f8fafc", border:"1px solid #e2e8f0", color:"#475569", borderRadius:6, padding:"4px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>編集</button>
+                              <button onClick={()=>deleteProject(p.id)} style={{ background:"#fef2f2", border:"1px solid #fecaca", color:"#ef4444", borderRadius:6, padding:"4px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>削除</button>
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* CHECKLIST */}
+            {tab==="checklist" && (
+              <div>
+                {!allComplete ? (
+                  <div style={{ background:"#fff7ed", border:"1px solid #fed7aa", borderLeft:"4px solid #f97316",
+                    borderRadius:12, padding:"12px 16px", marginBottom:20,
+                    display:"flex", alignItems:"center", gap:10 }}>
+                    <span style={{ fontSize:18 }}>⚠️</span>
+                    <div style={{ flex:1 }}>
+                      <span style={{ fontSize:13, fontWeight:700, color:"#c2410c" }}>未完了 {incomplete.length}件が残っています</span>
+                      <div style={{ fontSize:11, color:"#9a3412", marginTop:2 }}>
+                        {incomplete.slice(0,4).map(p=>p.name).join(" · ")}{incomplete.length>4?` 他${incomplete.length-4}件`:""}
+                      </div>
+                    </div>
+                    <span style={{ fontSize:13, fontWeight:800, color:"#f97316" }}>{tp.pct}%</span>
+                  </div>
+                ) : (
+                  <div style={{ background:"#f0fdf4", border:"1px solid #bbf7d0", borderLeft:"4px solid #22c55e",
+                    borderRadius:12, padding:"12px 16px", marginBottom:20,
+                    display:"flex", alignItems:"center", gap:10 }}>
+                    <span style={{ fontSize:18 }}>🎉</span>
+                    <span style={{ fontSize:13, fontWeight:700, color:"#15803d" }}>今月の全処理が完了しました！</span>
+                  </div>
+                )}
+
+                <div style={{ display:"flex", gap:10, marginBottom:24 }}>
+                  {categories.map(cat=>{
+                    const cp=catProgress(cat); const th=THEME[cat]||DEFAULT_THEME;
+                    return (
+                      <div key={cat} style={{ flex:1, background:"#fff", border:`1px solid ${th.strip}`, borderRadius:10, padding:"12px 16px" }}>
+                        <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
+                          <span style={{ fontSize:11, fontWeight:800, color:th.accent }}>{cat}</span>
+                          <span style={{ fontSize:11, color:"#94a3b8", fontWeight:600 }}>{cp.done}/{cp.total}</span>
+                        </div>
+                        <div style={{ background:"#f1f5f9", borderRadius:4, height:5 }}>
+                          <div style={{ width:`${cp.pct}%`, height:"100%", background:cp.pct===100?"#22c55e":th.bar, borderRadius:4, transition:"width .3s" }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div style={{ display:"flex", gap:16, marginBottom:14, flexWrap:"wrap",
+                  padding:"8px 12px", background:"#fff", borderRadius:8, border:"1px solid #f1f5f9" }}>
+                  {STEPS.map((s,i)=>(
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:5 }}>
+                      <span style={{ fontSize:12 }}>{s.icon}</span>
+                      <span style={{ fontSize:11, color:s.done.text, fontWeight:600 }}>{s.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {categories.map(cat=>{
+                  const th=THEME[cat]||DEFAULT_THEME;
+                  return (
+                    <div key={cat} style={{ marginBottom:32 }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
+                        <span style={{ background:th.pill, color:th.pillText, fontSize:11, fontWeight:800,
+                          padding:"3px 10px", borderRadius:20, letterSpacing:0.5 }}>{cat}</span>
+                        <div style={{ flex:1, height:1, background:"#e2e8f0" }} />
+                      </div>
+
+                      {projects.filter(p=>p.category===cat).map(p=>{
+                        const pr=progress(p);
+                        const allDone=pr.done===pr.total;
+                        const isUrgent=pr.done===0;
+
+                        return (
+                          <div key={p.id} style={{
+                            background:allDone?"#f0fdf4":"#fff",
+                            border:allDone?"1px solid #bbf7d0":isUrgent?"1.5px solid #fca5a5":`1.5px solid ${th.strip}`,
+                            borderLeft:allDone?"4px solid #22c55e":isUrgent?"4px solid #ef4444":`4px solid ${th.accent}`,
+                            borderRadius:12, marginBottom:8,
+                            boxShadow:isUrgent&&!allDone?"0 0 0 3px #fee2e215":"0 1px 3px #0000000a",
+                            transition:"all .2s"
+                          }}>
+                            <div style={{ padding:"12px 16px" }}>
+                              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                                <div style={{ display:"flex", alignItems:"center", gap:8, minWidth:0, flex:1 }}>
+                                  <div style={{
+                                    width:7, height:7, borderRadius:"50%", flexShrink:0,
+                                    background:allDone?"#22c55e":isUrgent?"#ef4444":th.accent,
+                                    boxShadow:isUrgent&&!allDone?"0 0 0 3px #fee2e2":"none"
+                                  }} />
+                                  <span style={{ fontWeight:700, fontSize:14,
+                                    color:allDone?"#15803d":isUrgent?"#b91c1c":"#0f172a",
+                                    whiteSpace:"nowrap" }}>{p.name}</span>
+                                  <span style={{ fontSize:11, color:"#94a3b8", overflow:"hidden",
+                                    textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{p.fullName}</span>
+                                </div>
+                                <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0, marginLeft:8 }}>
+                                  {allDone ? (
+                                    <span style={{ fontSize:11, color:"#15803d", fontWeight:700, background:"#dcfce7", padding:"2px 10px", borderRadius:20 }}>✓ 完了</span>
+                                  ) : isUrgent ? (
+                                    <span style={{ fontSize:11, color:"#b91c1c", fontWeight:700, background:"#fee2e2", padding:"2px 10px", borderRadius:20 }}>未着手</span>
+                                  ) : (
+                                    <span style={{ fontSize:11, color:th.pillText, fontWeight:700, background:th.pill, padding:"2px 10px", borderRadius:20 }}>{pr.done}/{pr.total}</span>
+                                  )}
+                                  {p.note && (
+                                    <button onClick={()=>setExpandNote(expandNote===p.id?null:p.id)}
+                                      style={{ background:"none", border:"none", color:"#cbd5e1", cursor:"pointer", fontSize:11, padding:0 }}>
+                                      {expandNote===p.id?"▲":"▼"}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div style={{ display:"flex", gap:6 }}>
+                                {p.steps.map((step,i)=>{
+                                  const sm=STEPS[i]||STEPS[0];
+                                  const done=isChecked(p.id,i);
+                                  const c=done?sm.done:sm.todo;
+                                  return (
+                                    <button key={i} onClick={()=>toggle(p.id,i)} style={{
+                                      flex:1, background:c.bg, border:`1.5px solid ${c.border}`,
+                                      color:c.text, borderRadius:8, padding:"7px 4px",
+                                      fontSize:11, fontWeight:done?700:400,
+                                      cursor:"pointer", fontFamily:"inherit", transition:"all .15s",
+                                      display:"flex", flexDirection:"column", alignItems:"center", gap:3
+                                    }}>
+                                      <span style={{ fontSize:14 }}>{done?"✓":sm.icon}</span>
+                                      <span style={{ fontSize:10, textAlign:"center", lineHeight:1.2 }}>{sm.label}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+
+                              <div style={{ marginTop:8, background:"#f1f5f9", borderRadius:3, height:3 }}>
+                                <div style={{ width:`${pr.pct}%`, height:"100%", borderRadius:3,
+                                  background:allDone?"#22c55e":th.bar, transition:"width .3s" }} />
+                              </div>
+
+                              {expandNote===p.id && p.note && (
+                                <div style={{ marginTop:10, padding:"8px 12px", background:th.light,
+                                  borderRadius:8, fontSize:11, color:th.pillText,
+                                  borderLeft:`3px solid ${th.accent}`, wordBreak:"break-all" }}>
+                                  📎 {p.note}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {toast && (
+            <div style={{ position:"fixed", bottom:28, left:"50%", transform:"translateX(-50%)",
+              background:"#0f172a", color:"#fff", borderRadius:20, padding:"8px 20px",
+              fontSize:12, fontWeight:700, zIndex:100, pointerEvents:"none",
+              boxShadow:"0 4px 20px #0003", animation:"fadeUp .2s ease" }}>
+              {toast}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    function ProjectForm({ proj, onChange, onSave, onCancel, categories, isNew }) {
+      return (
+        <div style={{ background:"#fff", border:"1px solid #e2e8f0", borderRadius:12, padding:"16px 18px", marginBottom:12 }}>
+          <div style={{ fontSize:12, color:"#475569", fontWeight:700, marginBottom:12 }}>
+            {isNew?"新規プロジェクト追加":"プロジェクト編集"}
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
+            {[["表示名","name"],["正式名称","fullName"],["略称コード","code"],["送付方法・メモ","note"]].map(([label,key])=>(
+              <div key={key}>
+                <div style={{ fontSize:10, color:"#94a3b8", marginBottom:3 }}>{label}</div>
+                <input value={proj[key]||""} onChange={e=>onChange({...proj,[key]:e.target.value})}
+                  style={{ width:"100%", background:"#f8fafc", border:"1px solid #e2e8f0",
+                    color:"#0f172a", borderRadius:6, padding:"7px 10px", fontSize:12, fontFamily:"inherit" }} />
+              </div>
+            ))}
+          </div>
+          <div style={{ marginBottom:12 }}>
+            <div style={{ fontSize:10, color:"#94a3b8", marginBottom:3 }}>カテゴリ</div>
+            <select value={proj.category} onChange={e=>onChange({...proj,category:e.target.value})}
+              style={{ background:"#f8fafc", border:"1px solid #e2e8f0", color:"#0f172a",
+                borderRadius:6, padding:"7px 10px", fontSize:12, fontFamily:"inherit" }}>
+              {categories.map(c=><option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+          <div style={{ display:"flex", gap:8, justifyContent:"flex-end" }}>
+            <button onClick={onCancel} style={{ background:"#f8fafc", border:"1px solid #e2e8f0", color:"#475569", borderRadius:6, padding:"6px 16px", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>キャンセル</button>
+            <button onClick={onSave} disabled={!proj.name}
+              style={{ background:proj.name?"#0f172a":"#e2e8f0", border:"none",
+                color:proj.name?"#fff":"#94a3b8", borderRadius:6, padding:"6px 16px",
+                fontSize:12, fontWeight:700, cursor:proj.name?"pointer":"not-allowed", fontFamily:"inherit" }}>保存</button>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
