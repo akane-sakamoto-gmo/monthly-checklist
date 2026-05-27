@@ -26,29 +26,30 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
+    // ② 振替処理は FLOW起票 のみ
     const INITIAL_PROJECTS = [
-      { id:"adam",      category:"売上処理", name:"アダム",               fullName:"GMOアダム（株）",              steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研-adam-請求関連-g研-始230313" },
-      { id:"tech",      category:"売上処理", name:"TECH",                fullName:"GMOTECH（株）",                steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研tech-請求関連-g研-始240205" },
-      { id:"oshiete",   category:"売上処理", name:"天秤AI",               fullName:"GMO天秤AI（株）",              steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
-      { id:"townwifi",  category:"売上処理", name:"タウンWifi",            fullName:"GMOタウンWifi（株）",          steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-townwifi-invoice" },
-      { id:"mak",       category:"売上処理", name:"MAKESHOP",            fullName:"GMOメイクショップ(株)",         steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"落合さんとのDM" },
-      { id:"air",       category:"売上処理", name:"GMO AIR",             fullName:"GMO AI&ロボティクス商事(株)",   steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研air-請求関連-始241118" },
-      { id:"sip3",      category:"売上処理", name:"SIP3クレカ不正",        fullName:"GMOコネクト（株）",            steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"コネ_コネクト請求関連_外_g研_250209" },
-      { id:"ganb",      category:"売上処理", name:"ローン審査",            fullName:"GMOあおぞらネット銀行（株）",  steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
-      { id:"gyen",      category:"売上処理", name:"GYEN",                fullName:"GMO-Z.com Trust Company",     steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-zcomtrust_invoice" },
-      { id:"brsana",    category:"売上処理", name:"経営データAI",          fullName:"GMOブランドセキュリティ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"kobayashi/GMO-BRS、org-g研brs-請求関連-始250107" },
-      { id:"cal",       category:"売上処理", name:"CALLDB",              fullName:"GMOインターネット（株）",       steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"鐵本さんとのDM" },
-      { id:"kaden",     category:"売上処理", name:"架電チェッカー",         fullName:"GMOTECH（株）",               steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"荒川さんとのDM" },
-      { id:"markcon",   category:"売上処理", name:"マーケティングコネクトAI",fullName:"GMOコマース（株）",           steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"control_team@gmo-c.jp CC:村西さん" },
-      { id:"wine",      category:"売上処理", name:"北青山システム支援",      fullName:"OMAKASE青山ガーデンbyGMO",   steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"jkinvest",  category:"振替処理", name:"AI金融投資",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"netsec",    category:"振替処理", name:"ネットセキュリティもGMO", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"pdf2html",  category:"振替処理", name:"スライド2Web byGMO",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"gbnp",      category:"振替処理", name:"グループブランド日報",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"nakamai",   category:"振替処理", name:"仲間創りAI",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"gplat",     category:"振替処理", name:"GMOプラットフォーム開発", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"kigyomado", category:"振替処理", name:"起業の窓口 byGMO",      fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
-      { id:"tikk",      category:"振替処理", name:"東大医科研",             fullName:"GMOインターネットグループ（株）",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"adam",      category:"売上処理", name:"アダム",               fullName:"GMOアダム（株）",               steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研-adam-請求関連-g研-始230313" },
+      { id:"tech",      category:"売上処理", name:"TECH",                fullName:"GMOTECH（株）",                 steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研tech-請求関連-g研-始240205" },
+      { id:"oshiete",   category:"売上処理", name:"天秤AI",               fullName:"GMO天秤AI（株）",               steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
+      { id:"townwifi",  category:"売上処理", name:"タウンWifi",            fullName:"GMOタウンWifi（株）",           steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-townwifi-invoice" },
+      { id:"mak",       category:"売上処理", name:"MAKESHOP",            fullName:"GMOメイクショップ(株)",          steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"落合さんとのDM" },
+      { id:"air",       category:"売上処理", name:"GMO AIR",             fullName:"GMO AI&ロボティクス商事(株)",    steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"org-g研air-請求関連-始241118" },
+      { id:"sip3",      category:"売上処理", name:"SIP3クレカ不正",        fullName:"GMOコネクト（株）",             steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"コネ_コネクト請求関連_外_g研_250209" },
+      { id:"ganb",      category:"売上処理", name:"ローン審査",            fullName:"GMOあおぞらネット銀行（株）",   steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"メール送付" },
+      { id:"gyen",      category:"売上処理", name:"GYEN",                fullName:"GMO-Z.com Trust Company",      steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"gmo-zcomtrust_invoice" },
+      { id:"brsana",    category:"売上処理", name:"経営データAI",          fullName:"GMOブランドセキュリティ（株）", steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"kobayashi/GMO-BRS、org-g研brs-請求関連-始250107" },
+      { id:"cal",       category:"売上処理", name:"CALLDB",              fullName:"GMOインターネット（株）",        steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"鐵本さんとのDM" },
+      { id:"kaden",     category:"売上処理", name:"架電チェッカー",         fullName:"GMOTECH（株）",                steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"荒川さんとのDM" },
+      { id:"markcon",   category:"売上処理", name:"マーケティングコネクトAI",fullName:"GMOコマース（株）",            steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"control_team@gmo-c.jp CC:村西さん" },
+      { id:"wine",      category:"売上処理", name:"北青山システム支援",      fullName:"OMAKASE青山ガーデンbyGMO",    steps:["工数表出力","請求書作成","FLOW起票","先方に送付"], note:"" },
+      { id:"jkinvest",  category:"振替処理", name:"AI金融投資",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"netsec",    category:"振替処理", name:"ネットセキュリティもGMO", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"pdf2html",  category:"振替処理", name:"スライド2Web byGMO",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"gbnp",      category:"振替処理", name:"グループブランド日報",    fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"nakamai",   category:"振替処理", name:"仲間創りAI",            fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"gplat",     category:"振替処理", name:"GMOプラットフォーム開発", fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"kigyomado", category:"振替処理", name:"起業の窓口 byGMO",      fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
+      { id:"tikk",      category:"振替処理", name:"東大医科研",             fullName:"GMOインターネットグループ（株）",steps:["工数表出力","FLOW起票"], note:"" },
     ];
 
     const THEME = {
@@ -57,29 +58,35 @@
     };
     const DEFAULT_THEME = THEME["売上処理"];
 
-    const STEPS = [
-      { label:"工数表出力", icon:"📊", done:{ text:"#059669", bg:"#ecfdf5", border:"#6ee7b7" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
-      { label:"請求書作成", icon:"📄", done:{ text:"#2563eb", bg:"#eff6ff", border:"#93c5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
-      { label:"FLOW起票",  icon:"🔖", done:{ text:"#7c3aed", bg:"#f5f3ff", border:"#c4b5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
-      { label:"先方に送付", icon:"✉️", done:{ text:"#b45309", bg:"#fffbeb", border:"#fcd34d" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
-    ];
+    // ステップ定義をラベル名で引けるようにMapで管理
+    const STEPS_MAP = {
+      "工数表出力": { icon:"📊", done:{ text:"#059669", bg:"#ecfdf5", border:"#6ee7b7" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      "請求書作成": { icon:"📄", done:{ text:"#2563eb", bg:"#eff6ff", border:"#93c5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      "FLOW起票":  { icon:"🔖", done:{ text:"#7c3aed", bg:"#f5f3ff", border:"#c4b5fd" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+      "先方に送付": { icon:"✉️", done:{ text:"#b45309", bg:"#fffbeb", border:"#fcd34d" }, todo:{ text:"#9ca3af", bg:"#f9fafb", border:"#e5e7eb" } },
+    };
+    const STEPS_LIST = ["工数表出力","請求書作成","FLOW起票","先方に送付"];
 
-    const STORAGE_KEY  = "monthly_cl_v2";
-    const PROJECTS_KEY = "monthly_cl_projects_v2";
+    const STORAGE_KEY   = "monthly_cl_v3";
+    const PROJECTS_KEY  = "monthly_cl_projects_v3";
+    const NOREQ_KEY     = "monthly_cl_noreq_v3"; // ③ 請求なし
 
     function getMonthKey() {
       const d = new Date();
       return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
     }
     function monthLabel(mk) { const [y,m]=mk.split("-"); return `${y}年${parseInt(m)}月`; }
-    function loadChecks(mk)  { try { return JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${mk}`))||{}; } catch { return {}; } }
-    function saveChecks(mk,c){ localStorage.setItem(`${STORAGE_KEY}_${mk}`,JSON.stringify(c)); }
-    function loadProjects()  { try { return JSON.parse(localStorage.getItem(PROJECTS_KEY))||INITIAL_PROJECTS; } catch { return INITIAL_PROJECTS; } }
-    function saveProjects(p) { localStorage.setItem(PROJECTS_KEY,JSON.stringify(p)); }
+    function loadChecks(mk)   { try { return JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${mk}`))||{}; }  catch { return {}; } }
+    function saveChecks(mk,c) { localStorage.setItem(`${STORAGE_KEY}_${mk}`,JSON.stringify(c)); }
+    function loadProjects()   { try { return JSON.parse(localStorage.getItem(PROJECTS_KEY))||INITIAL_PROJECTS; } catch { return INITIAL_PROJECTS; } }
+    function saveProjects(p)  { localStorage.setItem(PROJECTS_KEY,JSON.stringify(p)); }
+    function loadNoReq(mk)    { try { return JSON.parse(localStorage.getItem(`${NOREQ_KEY}_${mk}`))||{}; }    catch { return {}; } }
+    function saveNoReq(mk,nr) { localStorage.setItem(`${NOREQ_KEY}_${mk}`,JSON.stringify(nr)); }
 
     function App() {
       const [monthKey,    setMonthKey]    = useState(getMonthKey);
       const [checks,      setChecks]      = useState(()=>loadChecks(getMonthKey()));
+      const [noReq,       setNoReq]       = useState(()=>loadNoReq(getMonthKey()));  // ③
       const [projects,    setProjects]    = useState(loadProjects);
       const [tab,         setTab]         = useState("checklist");
       const [editProj,    setEditProj]    = useState(null);
@@ -87,38 +94,59 @@
       const [expandNote,  setExpandNote]  = useState(null);
       const [toast,       setToast]       = useState(null);
 
-      useEffect(()=>{ setChecks(loadChecks(monthKey)); },[monthKey]);
+      useEffect(()=>{
+        setChecks(loadChecks(monthKey));
+        setNoReq(loadNoReq(monthKey));
+      },[monthKey]);
 
       const months = Array.from({length:6},(_,i)=>{
         const d = new Date(new Date().getFullYear(), new Date().getMonth()-i, 1);
         return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
       });
 
-      function toggle(pid,si) {
-        const k=`${pid}_${si}`, next={...checks,[k]:!checks[k]};
+      function toggle(pid,step) {
+        const k=`${pid}_${step}`, next={...checks,[k]:!checks[k]};
         setChecks(next); saveChecks(monthKey,next);
         if(!checks[k]) showToast("✓ 完了");
       }
-      function isChecked(pid,si) { return !!checks[`${pid}_${si}`]; }
+      function isChecked(pid,step) { return !!checks[`${pid}_${step}`]; }
+
+      // ③ 請求なし トグル
+      function toggleNoReq(pid) {
+        const next={...noReq,[pid]:!noReq[pid]};
+        setNoReq(next); saveNoReq(monthKey,next);
+        showToast(next[pid] ? "請求なしに設定しました" : "請求なしを解除しました");
+      }
+      function isNoReq(pid) { return !!noReq[pid]; }
+
       function progress(p) {
-        const done=p.steps.filter((_,i)=>isChecked(p.id,i)).length;
+        if(isNoReq(p.id)) return { done:0, total:0, pct:100, skipped:true };
+        const done=p.steps.filter(s=>isChecked(p.id,s)).length;
         return { done, total:p.steps.length, pct:Math.round(done/p.steps.length*100) };
       }
       function catProgress(cat) {
-        let done=0,total=0;
-        projects.filter(p=>p.category===cat).forEach(p=>{ const pr=progress(p); done+=pr.done; total+=pr.total; });
-        return { done, total, pct:total?Math.round(done/total*100):0 };
+        let done=0,total=0,skipped=0;
+        projects.filter(p=>p.category===cat).forEach(p=>{
+          const pr=progress(p);
+          if(pr.skipped){ skipped++; return; }
+          done+=pr.done; total+=pr.total;
+        });
+        return { done, total, pct:total?Math.round(done/total*100):100, skipped };
       }
       function totalProgress() {
         let done=0,total=0;
-        projects.forEach(p=>{ const pr=progress(p); done+=pr.done; total+=pr.total; });
-        return { done, total, pct:total?Math.round(done/total*100):0 };
+        projects.forEach(p=>{
+          const pr=progress(p);
+          if(pr.skipped) return;
+          done+=pr.done; total+=pr.total;
+        });
+        return { done, total, pct:total?Math.round(done/total*100):100 };
       }
-      function showToast(msg) { setToast(msg); setTimeout(()=>setToast(null),1600); }
+      function showToast(msg) { setToast(msg); setTimeout(()=>setToast(null),1800); }
 
       const categories  = [...new Set(projects.map(p=>p.category))];
       const tp          = totalProgress();
-      const incomplete  = projects.filter(p=>progress(p).done<progress(p).total);
+      const incomplete  = projects.filter(p=>{ const pr=progress(p); return !pr.skipped && pr.done<pr.total; });
       const allComplete = incomplete.length===0;
 
       function saveEdit(proj) {
@@ -206,7 +234,10 @@
                       border:`1px solid ${th.strip}`, borderLeft:`4px solid ${th.accent}` }}>
                       <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
                         <span style={{ fontWeight:700, fontSize:13, color:th.accent }}>{cat}</span>
-                        <span style={{ fontSize:12, color:"#64748b" }}>{cp.done}/{cp.total}</span>
+                        <span style={{ fontSize:12, color:"#64748b" }}>
+                          {cp.done}/{cp.total}
+                          {cp.skipped>0 && <span style={{ color:"#94a3b8", marginLeft:6 }}>（請求なし {cp.skipped}件）</span>}
+                        </span>
                       </div>
                       <div style={{ background:"#f1f5f9", borderRadius:6, height:6 }}>
                         <div style={{ width:`${cp.pct}%`, height:"100%", background:cp.pct===100?"#22c55e":th.bar, borderRadius:6, transition:"width .4s" }} />
@@ -219,7 +250,7 @@
                     borderLeft:"4px solid #ef4444", padding:"16px 20px", marginTop:16 }}>
                     <div style={{ fontSize:11, color:"#ef4444", fontWeight:800, letterSpacing:1, marginBottom:12 }}>⚠ 未完了 {incomplete.length}件</div>
                     {incomplete.map(p=>{
-                      const remaining=p.steps.filter((_,i)=>!isChecked(p.id,i));
+                      const remaining=p.steps.filter(s=>!isChecked(p.id,s));
                       return (
                         <div key={p.id} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
                           padding:"8px 0", borderBottom:"1px solid #fef2f2" }}>
@@ -251,7 +282,7 @@
               <div>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
                   <span style={{ fontSize:13, fontWeight:700, color:"#475569" }}>プロジェクト管理</span>
-                  <button onClick={()=>setNewProj({category:"売上処理",name:"",fullName:"",code:"",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"],note:""})}
+                  <button onClick={()=>setNewProj({category:"売上処理",name:"",fullName:"",steps:["工数表出力","請求書作成","FLOW起票","先方に送付"],note:""})}
                     style={{ background:"#0f172a", border:"none", color:"#fff", borderRadius:8,
                       padding:"7px 16px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
                     ＋ 追加
@@ -262,7 +293,14 @@
                   const th=THEME[cat]||DEFAULT_THEME;
                   return (
                     <div key={cat} style={{ marginBottom:20 }}>
-                      <div style={{ fontSize:10, color:th.accent, fontWeight:800, letterSpacing:2, textTransform:"uppercase", marginBottom:8 }}>{cat}</div>
+                      {/* ① 大きく枠付きのカテゴリラベル */}
+                      <div style={{
+                        display:"inline-flex", alignItems:"center", gap:8,
+                        background:th.pill, border:`2px solid ${th.accent}`,
+                        borderRadius:10, padding:"6px 16px", marginBottom:10
+                      }}>
+                        <span style={{ fontSize:15, fontWeight:900, color:th.pillText, letterSpacing:1 }}>{cat}</span>
+                      </div>
                       {projects.filter(p=>p.category===cat).map(p=>
                         editProj&&editProj.id===p.id ? (
                           <ProjectForm key={p.id} proj={editProj} onChange={setEditProj}
@@ -312,13 +350,14 @@
                   </div>
                 )}
 
+                {/* Category progress */}
                 <div style={{ display:"flex", gap:10, marginBottom:24 }}>
                   {categories.map(cat=>{
                     const cp=catProgress(cat); const th=THEME[cat]||DEFAULT_THEME;
                     return (
                       <div key={cat} style={{ flex:1, background:"#fff", border:`1px solid ${th.strip}`, borderRadius:10, padding:"12px 16px" }}>
                         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                          <span style={{ fontSize:11, fontWeight:800, color:th.accent }}>{cat}</span>
+                          <span style={{ fontSize:12, fontWeight:800, color:th.accent }}>{cat}</span>
                           <span style={{ fontSize:11, color:"#94a3b8", fontWeight:600 }}>{cp.done}/{cp.total}</span>
                         </div>
                         <div style={{ background:"#f1f5f9", borderRadius:4, height:5 }}>
@@ -329,62 +368,97 @@
                   })}
                 </div>
 
+                {/* Step legend */}
                 <div style={{ display:"flex", gap:16, marginBottom:14, flexWrap:"wrap",
                   padding:"8px 12px", background:"#fff", borderRadius:8, border:"1px solid #f1f5f9" }}>
-                  {STEPS.map((s,i)=>(
-                    <div key={i} style={{ display:"flex", alignItems:"center", gap:5 }}>
-                      <span style={{ fontSize:12 }}>{s.icon}</span>
-                      <span style={{ fontSize:11, color:s.done.text, fontWeight:600 }}>{s.label}</span>
-                    </div>
-                  ))}
+                  {STEPS_LIST.map(label=>{
+                    const sm=STEPS_MAP[label];
+                    return (
+                      <div key={label} style={{ display:"flex", alignItems:"center", gap:5 }}>
+                        <span style={{ fontSize:12 }}>{sm.icon}</span>
+                        <span style={{ fontSize:11, color:sm.done.text, fontWeight:600 }}>{label}</span>
+                      </div>
+                    );
+                  })}
                 </div>
 
+                {/* Cards */}
                 {categories.map(cat=>{
                   const th=THEME[cat]||DEFAULT_THEME;
                   return (
                     <div key={cat} style={{ marginBottom:32 }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
-                        <span style={{ background:th.pill, color:th.pillText, fontSize:11, fontWeight:800,
-                          padding:"3px 10px", borderRadius:20, letterSpacing:0.5 }}>{cat}</span>
-                        <div style={{ flex:1, height:1, background:"#e2e8f0" }} />
+                      {/* ① 大きく・枠付きのカテゴリ見出し */}
+                      <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:12 }}>
+                        <div style={{
+                          background:th.pill,
+                          border:`2px solid ${th.accent}`,
+                          borderRadius:10,
+                          padding:"6px 20px",
+                          display:"inline-flex", alignItems:"center"
+                        }}>
+                          <span style={{ fontSize:15, fontWeight:900, color:th.pillText, letterSpacing:1 }}>{cat}</span>
+                        </div>
+                        <div style={{ flex:1, height:2, background:th.strip, borderRadius:1 }} />
                       </div>
 
                       {projects.filter(p=>p.category===cat).map(p=>{
                         const pr=progress(p);
-                        const allDone=pr.done===pr.total;
-                        const isUrgent=pr.done===0;
+                        const skipped=pr.skipped;
+                        const allDone=!skipped && pr.done===pr.total;
+                        const isUrgent=!skipped && pr.done===0;
 
                         return (
                           <div key={p.id} style={{
-                            background:allDone?"#f0fdf4":"#fff",
-                            border:allDone?"1px solid #bbf7d0":isUrgent?"1.5px solid #fca5a5":`1.5px solid ${th.strip}`,
-                            borderLeft:allDone?"4px solid #22c55e":isUrgent?"4px solid #ef4444":`4px solid ${th.accent}`,
-                            borderRadius:12, marginBottom:8,
+                            background: skipped?"#f8fafc": allDone?"#f0fdf4":"#fff",
+                            border: skipped?"1px solid #e2e8f0": allDone?"1px solid #bbf7d0": isUrgent?"1.5px solid #fca5a5":`1.5px solid ${th.strip}`,
+                            borderLeft: skipped?"4px solid #cbd5e1": allDone?"4px solid #22c55e": isUrgent?"4px solid #ef4444":`4px solid ${th.accent}`,
+                            borderRadius:12, marginBottom:8, opacity:skipped?0.6:1,
                             boxShadow:isUrgent&&!allDone?"0 0 0 3px #fee2e215":"0 1px 3px #0000000a",
                             transition:"all .2s"
                           }}>
                             <div style={{ padding:"12px 16px" }}>
-                              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+                              {/* Name row */}
+                              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom: skipped?0:10 }}>
                                 <div style={{ display:"flex", alignItems:"center", gap:8, minWidth:0, flex:1 }}>
                                   <div style={{
                                     width:7, height:7, borderRadius:"50%", flexShrink:0,
-                                    background:allDone?"#22c55e":isUrgent?"#ef4444":th.accent,
-                                    boxShadow:isUrgent&&!allDone?"0 0 0 3px #fee2e2":"none"
+                                    background: skipped?"#cbd5e1": allDone?"#22c55e": isUrgent?"#ef4444":th.accent,
                                   }} />
                                   <span style={{ fontWeight:700, fontSize:14,
-                                    color:allDone?"#15803d":isUrgent?"#b91c1c":"#0f172a",
-                                    whiteSpace:"nowrap" }}>{p.name}</span>
+                                    color: skipped?"#94a3b8": allDone?"#15803d": isUrgent?"#b91c1c":"#0f172a",
+                                    whiteSpace:"nowrap",
+                                    textDecoration: skipped?"line-through":"none"
+                                  }}>{p.name}</span>
                                   <span style={{ fontSize:11, color:"#94a3b8", overflow:"hidden",
                                     textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{p.fullName}</span>
                                 </div>
                                 <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0, marginLeft:8 }}>
-                                  {allDone ? (
+                                  {/* ③ 請求なしバッジ */}
+                                  {skipped && (
+                                    <span style={{ fontSize:11, color:"#64748b", fontWeight:700,
+                                      background:"#f1f5f9", padding:"2px 10px", borderRadius:20,
+                                      border:"1px solid #e2e8f0" }}>請求なし</span>
+                                  )}
+                                  {!skipped && allDone && (
                                     <span style={{ fontSize:11, color:"#15803d", fontWeight:700, background:"#dcfce7", padding:"2px 10px", borderRadius:20 }}>✓ 完了</span>
-                                  ) : isUrgent ? (
+                                  )}
+                                  {!skipped && isUrgent && (
                                     <span style={{ fontSize:11, color:"#b91c1c", fontWeight:700, background:"#fee2e2", padding:"2px 10px", borderRadius:20 }}>未着手</span>
-                                  ) : (
+                                  )}
+                                  {!skipped && !allDone && !isUrgent && (
                                     <span style={{ fontSize:11, color:th.pillText, fontWeight:700, background:th.pill, padding:"2px 10px", borderRadius:20 }}>{pr.done}/{pr.total}</span>
                                   )}
+                                  {/* ③ 請求なしトグルボタン */}
+                                  <button onClick={()=>toggleNoReq(p.id)} style={{
+                                    background: skipped?"#f1f5f9":"#fff",
+                                    border:`1px solid ${skipped?"#94a3b8":"#e2e8f0"}`,
+                                    color: skipped?"#475569":"#94a3b8",
+                                    borderRadius:6, padding:"3px 9px", fontSize:10,
+                                    fontWeight:600, cursor:"pointer", fontFamily:"inherit",
+                                    whiteSpace:"nowrap"
+                                  }}>
+                                    {skipped?"請求なし解除":"請求なし"}
+                                  </button>
                                   {p.note && (
                                     <button onClick={()=>setExpandNote(expandNote===p.id?null:p.id)}
                                       style={{ background:"none", border:"none", color:"#cbd5e1", cursor:"pointer", fontSize:11, padding:0 }}>
@@ -394,30 +468,34 @@
                                 </div>
                               </div>
 
-                              <div style={{ display:"flex", gap:6 }}>
-                                {p.steps.map((step,i)=>{
-                                  const sm=STEPS[i]||STEPS[0];
-                                  const done=isChecked(p.id,i);
-                                  const c=done?sm.done:sm.todo;
-                                  return (
-                                    <button key={i} onClick={()=>toggle(p.id,i)} style={{
-                                      flex:1, background:c.bg, border:`1.5px solid ${c.border}`,
-                                      color:c.text, borderRadius:8, padding:"7px 4px",
-                                      fontSize:11, fontWeight:done?700:400,
-                                      cursor:"pointer", fontFamily:"inherit", transition:"all .15s",
-                                      display:"flex", flexDirection:"column", alignItems:"center", gap:3
-                                    }}>
-                                      <span style={{ fontSize:14 }}>{done?"✓":sm.icon}</span>
-                                      <span style={{ fontSize:10, textAlign:"center", lineHeight:1.2 }}>{sm.label}</span>
-                                    </button>
-                                  );
-                                })}
-                              </div>
-
-                              <div style={{ marginTop:8, background:"#f1f5f9", borderRadius:3, height:3 }}>
-                                <div style={{ width:`${pr.pct}%`, height:"100%", borderRadius:3,
-                                  background:allDone?"#22c55e":th.bar, transition:"width .3s" }} />
-                              </div>
+                              {/* Steps（請求なしの場合は非表示） */}
+                              {!skipped && (
+                                <>
+                                  <div style={{ display:"flex", gap:6 }}>
+                                    {p.steps.map(step=>{
+                                      const sm=STEPS_MAP[step]||STEPS_MAP["FLOW起票"];
+                                      const done=isChecked(p.id,step);
+                                      const c=done?sm.done:sm.todo;
+                                      return (
+                                        <button key={step} onClick={()=>toggle(p.id,step)} style={{
+                                          flex:1, background:c.bg, border:`1.5px solid ${c.border}`,
+                                          color:c.text, borderRadius:8, padding:"7px 4px",
+                                          fontSize:11, fontWeight:done?700:400,
+                                          cursor:"pointer", fontFamily:"inherit", transition:"all .15s",
+                                          display:"flex", flexDirection:"column", alignItems:"center", gap:3
+                                        }}>
+                                          <span style={{ fontSize:14 }}>{done?"✓":sm.icon}</span>
+                                          <span style={{ fontSize:10, textAlign:"center", lineHeight:1.2 }}>{step}</span>
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                  <div style={{ marginTop:8, background:"#f1f5f9", borderRadius:3, height:3 }}>
+                                    <div style={{ width:`${pr.pct}%`, height:"100%", borderRadius:3,
+                                      background:allDone?"#22c55e":th.bar, transition:"width .3s" }} />
+                                  </div>
+                                </>
+                              )}
 
                               {expandNote===p.id && p.note && (
                                 <div style={{ marginTop:10, padding:"8px 12px", background:th.light,
@@ -456,7 +534,7 @@
             {isNew?"新規プロジェクト追加":"プロジェクト編集"}
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
-            {[["表示名","name"],["正式名称","fullName"],["略称コード","code"],["送付方法・メモ","note"]].map(([label,key])=>(
+            {[["表示名","name"],["正式名称","fullName"],["送付方法・メモ","note"]].map(([label,key])=>(
               <div key={key}>
                 <div style={{ fontSize:10, color:"#94a3b8", marginBottom:3 }}>{label}</div>
                 <input value={proj[key]||""} onChange={e=>onChange({...proj,[key]:e.target.value})}
