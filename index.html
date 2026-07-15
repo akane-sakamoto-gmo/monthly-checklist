@@ -111,7 +111,6 @@
       const [tab,         setTab]         = useState("checklist");
       const [editProj,    setEditProj]    = useState(null);
       const [newProj,     setNewProj]     = useState(null);
-      const [expandNote,  setExpandNote]  = useState(null);
       const [toast,       setToast]       = useState(null);
 
       useEffect(()=>{
@@ -468,12 +467,6 @@
                                   }}>
                                     {skipped?"請求なし解除":"請求なし"}
                                   </button>
-                                  {p.note && (
-                                    <button onClick={()=>setExpandNote(expandNote===p.id?null:p.id)}
-                                      style={{ background:"none", border:"none", color:"#cbd5e1", cursor:"pointer", fontSize:11, padding:0 }}>
-                                      {expandNote===p.id?"▲":"▼"}
-                                    </button>
-                                  )}
                                 </div>
                               </div>
 
@@ -505,7 +498,7 @@
                                 </>
                               )}
 
-                              {expandNote===p.id && p.note && (
+                              {p.note && (
                                 <div style={{ marginTop:10, padding:"8px 12px", background:th.light,
                                   borderRadius:8, fontSize:11, color:th.pillText,
                                   borderLeft:`3px solid ${th.accent}`, wordBreak:"break-all" }}>
