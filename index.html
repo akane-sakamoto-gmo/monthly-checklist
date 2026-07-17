@@ -32,28 +32,28 @@
     };
 
     const INITIAL_PROJECTS = [
-      { id:"adam",      category:"売上処理", name:"アダム",               fullName:"GMOアダム（株）",               steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研-adam-請求関連-g研-始230313" },
-      { id:"tech",      category:"売上処理", name:"TECH",                fullName:"GMOTECH（株）",                 steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研tech-請求関連-g研-始240205" },
-      { id:"oshiete",   category:"売上処理", name:"天秤AI",               fullName:"GMO天秤AI（株）",               steps:STEPS_BY_CATEGORY["売上処理"], note:"メール送付" },
-      { id:"townwifi",  category:"売上処理", name:"タウンWifi",            fullName:"GMOタウンWifi（株）",           steps:STEPS_BY_CATEGORY["売上処理"], note:"gmo-townwifi-invoice" },
-      { id:"mak",       category:"売上処理", name:"MAKESHOP",            fullName:"GMOメイクショップ(株)",          steps:STEPS_BY_CATEGORY["売上処理"], note:"落合さんとのDM" },
-      { id:"air",       category:"売上処理", name:"GMO AIR",             fullName:"GMO AI&ロボティクス商事(株)",    steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研air-請求関連-始241118" },
-      { id:"sip3",      category:"売上処理", name:"SIP3クレカ不正",        fullName:"GMOコネクト（株）",             steps:STEPS_BY_CATEGORY["売上処理"], note:"コネ_コネクト請求関連_外_g研_250209" },
-      { id:"ganb",      category:"売上処理", name:"ローン審査",            fullName:"GMOあおぞらネット銀行（株）",   steps:STEPS_BY_CATEGORY["売上処理"], note:"メール送付" },
-      { id:"gyen",      category:"売上処理", name:"GYEN",                fullName:"GMO-Z.com Trust Company",      steps:STEPS_BY_CATEGORY["売上処理"], note:"gmo-zcomtrust_invoice" },
-      { id:"brsana",    category:"売上処理", name:"経営データAI",          fullName:"GMOブランドセキュリティ（株）", steps:STEPS_BY_CATEGORY["売上処理"], note:"kobayashi/GMO-BRS、org-g研brs-請求関連-始250107" },
-      { id:"cal",       category:"売上処理", name:"CALLDB",              fullName:"GMOインターネット（株）",        steps:STEPS_BY_CATEGORY["売上処理"], note:"鐵本さんとのDM" },
-      { id:"kaden",     category:"売上処理", name:"架電チェッカー",         fullName:"GMOTECH（株）",                steps:STEPS_BY_CATEGORY["売上処理"], note:"荒川さんとのDM" },
-      { id:"markcon",   category:"売上処理", name:"マーケティングコネクトAI",fullName:"GMOコマース（株）",            steps:STEPS_BY_CATEGORY["売上処理"], note:"control_team@gmo-c.jp CC:村西さん" },
-      { id:"wine",      category:"売上処理", name:"北青山システム支援",      fullName:"OMAKASE青山ガーデンbyGMO",    steps:STEPS_BY_CATEGORY["売上処理"], note:"" },
-      { id:"jkinvest",  category:"振替処理", name:"AI金融投資",            fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"netsec",    category:"振替処理", name:"ネットセキュリティもGMO", fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"pdf2html",  category:"振替処理", name:"スライド2Web byGMO",    fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"gbnp",      category:"振替処理", name:"グループブランド日報",    fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"nakamai",   category:"振替処理", name:"仲間創りAI",            fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"gplat",     category:"振替処理", name:"GMOプラットフォーム開発", fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"kigyomado", category:"振替処理", name:"起業の窓口 byGMO",      fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
-      { id:"tikk",      category:"振替処理", name:"東大医科研",             fullName:"GMOインターネットグループ（株）",steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"adam",      category:"売上処理", name:"アダム",               fullName:"GMOアダム（株）",               symbol:"ADAM",       steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研-adam-請求関連-g研-始230313" },
+      { id:"tech",      category:"売上処理", name:"TECH",                fullName:"GMOTECH（株）",                 symbol:"GMOTECH",    steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研tech-請求関連-g研-始240205" },
+      { id:"oshiete",   category:"売上処理", name:"天秤AI",               fullName:"GMO天秤AI（株）",               symbol:"OSHIETE",    steps:STEPS_BY_CATEGORY["売上処理"], note:"メール送付" },
+      { id:"townwifi",  category:"売上処理", name:"タウンWifi",            fullName:"GMOタウンWifi（株）",           symbol:"",           steps:STEPS_BY_CATEGORY["売上処理"], note:"gmo-townwifi-invoice" },
+      { id:"mak",       category:"売上処理", name:"MAKESHOP",            fullName:"GMOメイクショップ(株)",          symbol:"MAK",        steps:STEPS_BY_CATEGORY["売上処理"], note:"落合さんとのDM" },
+      { id:"air",       category:"売上処理", name:"GMO AIR",             fullName:"GMO AI&ロボティクス商事(株)",    symbol:"AIR",        steps:STEPS_BY_CATEGORY["売上処理"], note:"org-g研air-請求関連-始241118" },
+      { id:"sip3",      category:"売上処理", name:"SIP3クレカ不正",        fullName:"GMOコネクト（株）",             symbol:"SIP3FRAUD",  steps:STEPS_BY_CATEGORY["売上処理"], note:"コネ_コネクト請求関連_外_g研_250209" },
+      { id:"ganb",      category:"売上処理", name:"ローン審査",            fullName:"GMOあおぞらネット銀行（株）",   symbol:"GANBANA",    steps:STEPS_BY_CATEGORY["売上処理"], note:"メール送付" },
+      { id:"gyen",      category:"売上処理", name:"GYEN",                fullName:"GMO-Z.com Trust Company",      symbol:"GYEN",       steps:STEPS_BY_CATEGORY["売上処理"], note:"gmo-zcomtrust_invoice" },
+      { id:"brsana",    category:"売上処理", name:"経営データAI",          fullName:"GMOブランドセキュリティ（株）", symbol:"BRSANA",     steps:STEPS_BY_CATEGORY["売上処理"], note:"kobayashi/GMO-BRS、org-g研brs-請求関連-始250107" },
+      { id:"cal",       category:"売上処理", name:"CALLDB",              fullName:"GMOインターネット（株）",        symbol:"",           steps:STEPS_BY_CATEGORY["売上処理"], note:"鐵本さんとのDM" },
+      { id:"kaden",     category:"売上処理", name:"架電チェッカー",         fullName:"GMOTECH（株）",                symbol:"",           steps:STEPS_BY_CATEGORY["売上処理"], note:"荒川さんとのDM" },
+      { id:"markcon",   category:"売上処理", name:"マーケティングコネクトAI",fullName:"GMOコマース（株）",            symbol:"MARKCONAI",  steps:STEPS_BY_CATEGORY["売上処理"], note:"control_team@gmo-c.jp CC:村西さん" },
+      { id:"wine",      category:"売上処理", name:"北青山システム支援",      fullName:"OMAKASE青山ガーデンbyGMO",    symbol:"WINE",       steps:STEPS_BY_CATEGORY["売上処理"], note:"" },
+      { id:"jkinvest",  category:"振替処理", name:"AI金融投資",            fullName:"GMOインターネットグループ（株）",symbol:"JKINVEST",  steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"netsec",    category:"振替処理", name:"ネットセキュリティもGMO", fullName:"GMOインターネットグループ（株）",symbol:"NETSEC",    steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"pdf2html",  category:"振替処理", name:"スライド2Web byGMO",    fullName:"GMOインターネットグループ（株）",symbol:"PDF2HTML",  steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"gbnp",      category:"振替処理", name:"グループブランド日報",    fullName:"GMOインターネットグループ（株）",symbol:"GBNP",      steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"nakamai",   category:"振替処理", name:"仲間創りAI",            fullName:"GMOインターネットグループ（株）",symbol:"NAKAMAAI",  steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"gplat",     category:"振替処理", name:"GMOプラットフォーム開発", fullName:"GMOインターネットグループ（株）",symbol:"",           steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"kigyomado", category:"振替処理", name:"起業の窓口 byGMO",      fullName:"GMOインターネットグループ（株）",symbol:"",           steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
+      { id:"tikk",      category:"振替処理", name:"東大医科研",             fullName:"GMOインターネットグループ（株）",symbol:"TIKK",      steps:STEPS_BY_CATEGORY["振替処理"], note:"" },
     ];
 
     const THEME = {
@@ -84,14 +84,21 @@
     function loadNoReq(mk)    { try { return JSON.parse(localStorage.getItem(`${NOREQ_KEY}_${mk}`))||{}; }    catch { return {}; } }
     function saveNoReq(mk,nr) { localStorage.setItem(`${NOREQ_KEY}_${mk}`,JSON.stringify(nr)); }
 
+    const INITIAL_SYMBOLS = Object.fromEntries(INITIAL_PROJECTS.map(p => [p.id, p.symbol||""]));
+
     function migrateProjects(projects) {
       return projects.map(p => {
+        let next = p;
         const correct = STEPS_BY_CATEGORY[p.category];
-        if (!correct) return p;
-        const current = JSON.stringify(p.steps);
-        const expected = JSON.stringify(correct);
-        if (current !== expected) return { ...p, steps: correct };
-        return p;
+        if (correct) {
+          const current = JSON.stringify(p.steps);
+          const expected = JSON.stringify(correct);
+          if (current !== expected) next = { ...next, steps: correct };
+        }
+        if (next.symbol === undefined && INITIAL_SYMBOLS[p.id] !== undefined) {
+          next = { ...next, symbol: INITIAL_SYMBOLS[p.id] };
+        }
+        return next;
       });
     }
     function loadProjects() {
@@ -300,7 +307,7 @@
               <div>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
                   <span style={{ fontSize:13, fontWeight:700, color:"#475569" }}>プロジェクト管理</span>
-                  <button onClick={()=>setNewProj({category:"売上処理",name:"",fullName:"",steps:STEPS_BY_CATEGORY["売上処理"],note:""})}
+                  <button onClick={()=>setNewProj({category:"売上処理",name:"",fullName:"",symbol:"",steps:STEPS_BY_CATEGORY["売上処理"],note:""})}
                     style={{ background:"#0f172a", border:"none", color:"#fff", borderRadius:8,
                       padding:"7px 16px", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
                     ＋ 追加
@@ -328,6 +335,7 @@
                             <div>
                               <span style={{ fontWeight:700, fontSize:13 }}>{p.name}</span>
                               <span style={{ fontSize:11, color:"#94a3b8", marginLeft:8 }}>{p.fullName}</span>
+                              {p.symbol && <span style={{ fontSize:9, color:"#cbd5e1", marginLeft:6, fontWeight:600, letterSpacing:0.5 }}>{p.symbol}</span>}
                             </div>
                             <div style={{ display:"flex", gap:6 }}>
                               <button onClick={()=>setEditProj({...p})} style={{ background:"#f8fafc", border:"1px solid #e2e8f0", color:"#475569", borderRadius:6, padding:"4px 12px", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>編集</button>
@@ -441,6 +449,7 @@
                                   }}>{p.name}</span>
                                   <span style={{ fontSize:11, color:"#94a3b8", overflow:"hidden",
                                     textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{p.fullName}</span>
+                                  {p.symbol && <span style={{ fontSize:9, color:"#cbd5e1", flexShrink:0, fontWeight:600, letterSpacing:0.5 }}>{p.symbol}</span>}
                                 </div>
                                 <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0, marginLeft:8 }}>
                                   {skipped && (
@@ -535,7 +544,7 @@
             {isNew?"新規プロジェクト追加":"プロジェクト編集"}
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
-            {[["表示名","name"],["正式名称","fullName"],["送付方法・メモ","note"]].map(([label,key])=>(
+            {[["表示名","name"],["正式名称","fullName"],["記号","symbol"],["送付方法・メモ","note"]].map(([label,key])=>(
               <div key={key}>
                 <div style={{ fontSize:10, color:"#94a3b8", marginBottom:3 }}>{label}</div>
                 <input value={proj[key]||""} onChange={e=>onChange({...proj,[key]:e.target.value})}
